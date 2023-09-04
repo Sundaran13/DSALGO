@@ -1,2 +1,2 @@
 # DSALGO
-All the basic dsa which i learn
+Coding question across all platforms #Leetcode #Codeforces #Interviewbit #Codechef
