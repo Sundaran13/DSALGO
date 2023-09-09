@@ -6,7 +6,10 @@ public:
         return dp[i]=min(cost[i]+find(cost,i+1,dp),cost[i]+find(cost,i+2,dp));
     }
     int minCostClimbingStairs(vector<int>& cost) {
-        vector<int> dp(cost.size(),-1);
-        return min(find(cost,0,dp),find(cost,1,dp));
+        vector<int> dp(cost.size()+2,0);
+        for(int i=cost.size()-1;i>=0;i--){
+            dp[i]=min(cost[i]+dp[i+1],cost[i]+dp[i+2]);
+        }
+        return min(dp[0],dp[1]);
     }
 };
