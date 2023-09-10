@@ -15,7 +15,20 @@ public:
         return dp[i][buy]=ans;
     }
     int maxProfit(vector<int>& prices) {
-        vector<vector<int>>dp(prices.size(),vector<int>(2,-1));
-        return solver(prices,0,1,dp);
+        vector<vector<int>>dp(prices.size()+2,vector<int>(2,0));
+        for(int i=prices.size()-1;i>=0;i--){
+            
+            for(int buy=1;buy>=0;buy--){
+                int ans=0;
+                if(buy){
+                    ans+=max(-prices[i]+dp[i+1][!buy],dp[i+1][buy]);
+                }
+                else{
+                    ans+=max(prices[i]+dp[i+2][!buy],dp[i+1][buy]);
+                }
+                dp[i][buy]=ans;
+            }
+        }
+        return dp[0][1];
     }
 };
