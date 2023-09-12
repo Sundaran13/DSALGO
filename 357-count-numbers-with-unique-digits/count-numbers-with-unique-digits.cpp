@@ -11,6 +11,14 @@ public:
     }
     int countNumbersWithUniqueDigits(int n) {
         vector<int> dp(n+1,-1);
-       return solver(n,dp);
+        dp[0]=1;
+        for(int i=1;i<=n;i++){
+            int sum=9;
+            for(int j=0;j<i-1;j++){
+                sum*=(9-j);
+            }
+            dp[i]=sum+dp[i-1];
+            }
+       return dp[n];
     }
 };
