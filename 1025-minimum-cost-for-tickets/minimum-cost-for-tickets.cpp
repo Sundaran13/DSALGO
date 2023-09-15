@@ -15,7 +15,17 @@ public:
         return dp[si]=min({cost_day,cost_week,cost_month});
     }
     int mincostTickets(vector<int>& days, vector<int>& costs) {
-        vector<int> dp(days.size()+1,-1);
-        return solver(days,costs,0,dp);
+        vector<int> dp(days.size()+1,0);
+        for(int si=days.size()-1;si>=0;si--){
+            int n=days.size();
+            int cost_day=costs[0]+dp[si+1];
+            int i;
+            for(i=si;i<n and days[i]<days[si]+7 ; i++);
+            int cost_week=costs[1]+dp[i];
+            for(i=si;i<n and days[i]<days[si]+30 ; i++);
+            int cost_month= costs[2]+ dp[i];
+            dp[si]=min({cost_day,cost_week,cost_month});
+        }
+        return dp[0];
     }
 };
