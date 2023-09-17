@@ -15,7 +15,17 @@ public:
         return dp[s]=curr_sum;
     }
     int maxSumAfterPartitioning(vector<int>& arr, int k) {
-        vector<int> dp(arr.size(),-1);
-        return solver(arr,k,0,dp);
+        vector<int> dp(arr.size()+k,0);
+        int n=arr.size();
+        for(int s=arr.size()-1;s>=0;s--){            
+            int curr_sum=INT_MIN;
+            int max_ele=INT_MIN;
+            for(int i=s;i<min(s+k,n);i++){
+                max_ele=max(max_ele,arr[i]);
+                curr_sum=max(curr_sum,dp[i+1]+max_ele*(i-s+1));
+            }
+            dp[s]=curr_sum;
+            }
+        return dp[0];
     }
 };
