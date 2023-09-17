@@ -12,6 +12,9 @@ public:
             max_ele=max(max_ele,arr[i]);
             curr_sum=max(curr_sum,solver(arr,k,i+1,dp)+max_ele*(i-s+1));
         }
+        for(int i=s;i<min(s+k,n);i++){
+            arr[i]=curr_sum;
+        }
         return dp[s]=curr_sum;
     }
     int maxSumAfterPartitioning(vector<int>& arr, int k) {
