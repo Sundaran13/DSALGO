@@ -13,8 +13,18 @@ public:
         return dp[i]=max({takeOne,takeTwo,takeThree});
     }
     string stoneGameIII(vector<int>& stoneValue) {
-        vector<int> dp(stoneValue.size(),INT_MAX);
-        int value=solver(stoneValue,0,dp);
+        vector<int> dp(stoneValue.size()+3,0);
+        for(int i=stoneValue.size()-1;i>=0;i--){
+            int n=stoneValue.size();
+            int takeOne=stoneValue[i]-dp[i+1];
+            int takeTwo=INT_MIN;
+            if(i+1<n)takeTwo=stoneValue[i]+stoneValue[i+1]-dp[i+2];
+            int takeThree=INT_MIN;
+            if(i+2<n)takeThree=stoneValue[i]+stoneValue[i+1]+stoneValue[i+2]-dp[i+3];
+
+            dp[i]=max({takeOne,takeTwo,takeThree});
+        }
+        int value=dp[0];
         if(value>0){
             return "Alice";
         }
