@@ -2,7 +2,7 @@ class Solution {
 public:
     string solver(vector<int>&cost,int target,int idx,vector<vector<string>>&dp){
         if(target==0)return "";
-        if(target<0 or idx>=cost.size())return "0";
+        if(target<0 or idx>=9)return "0";
         if(dp[idx][target]!="-1")return dp[idx][target];
         string include=to_string(idx+1)+solver(cost,target-cost[idx],0,dp);
         string exclude=solver(cost,target,idx+1,dp);
