@@ -1,6 +1,6 @@
 class Solution {
 public:
-    int dp[5001][4][4][4]={};
+    int dp[5001][4][4][4];
     int solver(int n,int a0,int b0,int c0){
         if(n==0)return 1;
         if(dp[n][a0][b0][c0]!=0)return dp[n][a0][b0][c0];
