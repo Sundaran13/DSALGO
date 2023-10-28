@@ -1,6 +1,6 @@
 class Solution {
 public:
-    int dp[201][201];
+    long long dp[201][201];
     int solver(int n,int l,int r){
         if(l>=r){
             return 0;
@@ -14,6 +14,6 @@ public:
     }
     int getMoneyAmount(int n) {
         memset(dp,-1,sizeof(dp));
-        return solver(n,1,n);
+       return solver(n,1,n);
     }
 };
