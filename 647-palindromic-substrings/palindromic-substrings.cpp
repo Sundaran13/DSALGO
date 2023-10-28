@@ -9,7 +9,7 @@ public:
             return false;
         }
         if(dp[i][j]!=-1)return dp[i][j];
-        if(i<j+1)
+        if(i<=j)
             return dp[i][j]=solver(s,i+1,j-1);
         return dp[i][j]=true;
     }
