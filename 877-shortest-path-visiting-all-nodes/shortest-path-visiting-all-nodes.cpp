@@ -1,44 +1,26 @@
 class Solution {
 public:
-    class tuple{
-        public:
-        int node;
-        int mask;
-        int cost;
-        tuple(int node,int mask,int cost){
-            this->node=node;
-            this->mask=mask;
-            this->cost=cost;
+    int n;
+    int dp[4097][22][13];
+    int solver(int node,int limit,int mask,vector<vector<int>>&graph){
+        if(mask==(1<<n)-1){
+            return 0;
         }
-    };
+        if(limit==0)return 1e9;
+        if(dp[mask][limit][node]!=-1)return dp[mask][limit][node];
+        int ans=1e9;
+        for(int adj:graph[node]){
+            ans=min(ans,1+solver(adj,limit-1,mask|(1<<adj),graph));
+        }
+        return dp[mask][limit][node]=ans;
+    }
     int shortestPathLength(vector<vector<int>>& graph) {
-        int n=graph.size();
-        queue<tuple> q;
-        set<pair<int,int>>vis;
-        int all=(1<<n)-1;
+        n=graph.size();
+        int ans=1e9;
         for(int i=0;i<n;i++){
-            int maskval=(1<<i);
-            tuple thisnode(i,maskval,1);
-            q.push(thisnode);
-            vis.insert({i,maskval});
+            memset(dp,-1,sizeof dp);
+            ans=min(ans,solver(i,21,1<<i,graph));
         }
-        while(!q.empty()){
-            tuple curr=q.front();
-            q.pop();
-            if(curr.mask==all){
-                return curr.cost-1;
-            }
-            for(auto &adj:graph[curr.node]){
-                int maskvis=curr.mask;
-                maskvis=maskvis|(1<<adj);
-                tuple thisnode(adj,maskvis,curr.cost+1);
-
-                if(vis.find({adj,maskvis})==vis.end()){
-                    vis.insert({adj,maskvis});
-                    q.push(thisnode);
-                }
-            }
-        }
-        return -1;
+        return ans;
     }
 };
