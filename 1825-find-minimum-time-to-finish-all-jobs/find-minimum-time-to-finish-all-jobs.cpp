@@ -1,41 +1,43 @@
 class Solution {
 public:
-    bool solver(vector<int> worker,int mid,vector<int>&jobs,int idx){
-        if(idx>=jobs.size()){
-            return true;
-        }
-        int curr=jobs[idx];
-        for(int i=0;i<worker.size();i++){
-            if(worker[i]+curr<=mid){
-                worker[i]+=curr;
-                if(solver(worker,mid,jobs,idx+1)){
-                    return true;
-                }
-                worker[i]-=curr;
-            }
-            if(worker[i]==0){
-                break;
-            }
-        }
-        return false;
-    }
-    int minimumTimeRequired(vector<int>& jobs, int k) {
-        int sum=0;
-        for(auto it:jobs){
-            sum+=it;
-        }
-        sort(jobs.begin(),jobs.end(),greater<int>());
-        int l=jobs[0],r=sum;
-        while(l<r){
-            int mid=(l+r)/2;
-            vector<int> worker(k,0);
-            if(solver(worker,mid,jobs,0)){
-                r=mid;
+    int dp[13][1<<13];
+    int solver(int idx,int mask,vector<int>&res,int k,int n){
+        if(idx==k){
+            if(mask==(1<<n)-1){
+                return 0;
             }
             else{
-                l=mid+1;
+                return INT_MAX;
             }
         }
-        return l;
+        if(dp[idx][mask]!=-1)return dp[idx][mask];
+        int ans=INT_MAX;
+        int notset=0;
+        for(int i=0;i<n;i++){
+            if(((1<<i)&mask)==0){
+                notset+=(1<<i);
+            }
+        }
+        int s=notset;
+        while(s>0){
+            ans=min(ans,max(res[s],solver(idx+1,mask|s,res,k,n)));
+            s=((s-1)&notset);
+        }
+        return dp[idx][mask]=ans;
+
+    }
+    int minimumTimeRequired(vector<int>& jobs, int k) {
+        int n=jobs.size();
+        vector<int> res(1<<n,0);
+        for(int i=0;i<(1<<n);i++){
+            for(int j=0;j<n;j++){
+                if((i&(1<<j))){
+                    res[i]+=jobs[j];
+                }
+            }
+        }
+        memset(dp,-1,sizeof dp);
+        //sort(res.begin(),res.end(),greater<int>());
+        return solver(0,0,res,k,n);
     }
 };
