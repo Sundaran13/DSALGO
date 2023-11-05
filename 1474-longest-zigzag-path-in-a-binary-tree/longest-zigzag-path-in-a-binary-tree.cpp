@@ -13,9 +13,13 @@ class Solution {
 public:
     //int pathlen=0;
     int maxpath=0;
+    unordered_map<TreeNode*,int> dp;
     void solver(TreeNode* root,bool left,bool right,int pathlen){
         if(root==NULL){
             return ;
+        }
+        if(dp.find(root)!=dp.end()){
+            return;
         }
         if(left){
             solver(root->left,false,true,pathlen+1);
@@ -26,7 +30,7 @@ public:
             solver(root->left,false,true,1);
 
         }
-        maxpath=max(maxpath,pathlen);
+        dp[root]=maxpath=max(maxpath,pathlen);
     }
     int longestZigZag(TreeNode* root) {
         solver(root,true,false,0);
