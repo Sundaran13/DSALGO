@@ -9,7 +9,7 @@
  *     TreeNode(int x, TreeNode *left, TreeNode *right) : val(x), left(left), right(right) {}
  * };
  */
-class Nodevalue{
+struct Nodevalue{
 public:
     int minNode,maxNode,maxSum;
     Nodevalue(int minNode,int maxNode,int maxSum){
@@ -21,8 +21,10 @@ public:
 class Solution {
 public:
     int sum=0;
+    //map<TreeNode*,Nodevalue> dp;
     Nodevalue solver(TreeNode* root){
         if(root==NULL)return Nodevalue(INT_MAX,INT_MIN,0);
+       // if(dp.find(root)!=dp.end())return dp[root];
         auto left=solver(root->left);
         auto right=solver(root->right);
         if(left.maxNode<root->val and right.minNode>root->val){
