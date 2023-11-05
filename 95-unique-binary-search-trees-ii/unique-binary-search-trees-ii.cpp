@@ -11,15 +11,16 @@
  */
 class Solution {
 public:
-    vector<TreeNode*> solver(int start,int end){
+    vector<TreeNode*> solver(int start,int end,map<pair<int, int>, vector<TreeNode*>>&dp){
         vector<TreeNode*> ans;
         if(start>end){
             ans.push_back(NULL);
             return ans;
         }
+        if(dp.find(make_pair(start,end))!=dp.end())return dp[{start,end}];
         for(int i=start;i<=end;i++){
-            vector<TreeNode*>leftsubtree=solver(start,i-1);
-            vector<TreeNode*>rightsubtree=solver(i+1,end);
+            vector<TreeNode*>leftsubtree=solver(start,i-1,dp);
+            vector<TreeNode*>rightsubtree=solver(i+1,end,dp);
             for(int j=0;j<leftsubtree.size();j++){
                 for(int k=0;k<rightsubtree.size();k++){
                     TreeNode* root = new TreeNode(i);
@@ -29,9 +30,10 @@ public:
                 }
             }
         }
-        return ans;
+        return dp[{start,end}]=ans;
     }
     vector<TreeNode*> generateTrees(int n) {
-        return solver(1,n);
+        map<pair<int,int>,vector<TreeNode*>>dp;
+        return solver(1,n,dp);
     }
 };
