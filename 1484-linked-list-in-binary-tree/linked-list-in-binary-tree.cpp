@@ -29,6 +29,7 @@ public:
         }
         return cnt;
     }
+    map<pair<ListNode*,TreeNode*>,bool> dp;
     bool solver(ListNode* head,TreeNode* root){
         if(head==NULL){
             return true;
@@ -36,7 +37,10 @@ public:
         if(root==NULL){
             return false;
         }
-        return head->val==root->val and (solver(head->next,root->left) or solver(head->next,root->right));
+        if(dp.count({head,root})){
+            return dp[{head,root}];
+        }
+        return dp[{head,root}]=head->val==root->val and (solver(head->next,root->left) or solver(head->next,root->right));
     }
     bool isSubPath(ListNode* head, TreeNode* root) {
         if(root==NULL){
