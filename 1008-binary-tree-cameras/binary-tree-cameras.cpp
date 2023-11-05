@@ -15,19 +15,23 @@ public:
     #define hascam 2
     #define noneed 1
     int ans=0;
+    unordered_map<TreeNode*,int> dp;
     int solver(TreeNode* root){
         if(!root)return noneed;
+        if(dp.find(root)!=dp.end()){
+            return dp[root];
+        }
         int l=solver(root->left);
         int r=solver(root->right);
         if(l==nocam or r==nocam){
             ans++;
-            return hascam;
+            return dp[root]=hascam;
         }
         else if(l==hascam or r==hascam){
-            return noneed;
+            return dp[root]=noneed;
         }
         else{
-            return nocam;
+            return dp[root]=nocam;
         }
     }
     int minCameraCover(TreeNode* root) {
