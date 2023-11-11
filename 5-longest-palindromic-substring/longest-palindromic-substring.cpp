@@ -1,31 +1,21 @@
 class Solution {
 public:
-int ans=0,ind=-1;
- bool f(int i,int j,string &s,vector<vector<int>>&dp)
-    {
-        if(i>=j)return true;
-        if(dp[i][j]!=-1)return dp[i][j];
-        if(s[i]!=s[j])
-        {
-            dp[i][j]=false;
+    int ans=0,ind=0;
+    bool ispalin(string&s,int i,int j){
+        if(i>=j){
+            return true;
         }
-        else
-        {
-            dp[i][j]=f(i+1,j-1,s,dp);
+        if(s[i]!=s[j]){
+            return false;
         }
-        return dp[i][j];
+        return ispalin(s,i+1,j-1);
     }
     string longestPalindrome(string s) {
-        vector<vector<int>>dp(s.length()+1,vector<int>(s.length()+1,-1));
-        for(int i=0;i<s.length();i++)
-        {
-            for(int j=i;j<s.length();j++)
-            {
-                if(f(i,j,s,dp))
-                {
-                   // cout<<i<<" "<<j<<endl;
-                    if(ans<j-i+1)
-                    {
+        int n=s.length();
+        for(int i=0;i<n;i++){
+            for(int j=i;j<n;j++){
+                if(ispalin(s,i,j)){
+                    if(j-i+1>ans){
                         ans=j-i+1;
                         ind=i;
                     }
